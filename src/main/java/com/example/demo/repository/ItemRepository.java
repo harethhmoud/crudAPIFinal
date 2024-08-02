@@ -11,7 +11,7 @@ public interface ItemRepository extends JpaRepository<Item,Long>{
     List<Item> findByPrice(float price);
 }
 
-// Now we can use JpaRepository’s methods without implementing them.
+// Now I can use JpaRepository’s methods without implementing them.
 
 
 
