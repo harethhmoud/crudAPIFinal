@@ -40,15 +40,32 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<!-- This dependency brings in the necessary libraries to use JPA,
+			which is a specification for managing relational data in Java applications. Basically simplifies db ops-->
+			<!-- Use this dependency when you want to interact with a relational database using JPA.-->
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<!-- includes Spring MVC, which is a framework for building web applications and RESTful APIs-->
+			<!-- It provides support for handling HTTP requests, creating controllers, and returning responses.-->
+			<!--Use this dependency when you want to create web applications or RESTful APIs.-->
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+			<!-- PostgreSQL -->
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
-</project>
+			<
