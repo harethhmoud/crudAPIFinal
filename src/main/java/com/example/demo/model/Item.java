@@ -39,7 +39,7 @@ public class Item{
         return title;
     }
 
-    public void setTitle(){
+    public void setTitle(String title){
         this.title = title;
     }
 

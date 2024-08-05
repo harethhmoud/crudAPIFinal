@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.model.Item;
 import com.example.demo.model.Size;
 
-@Repository
+//@Repository
 public interface ItemRepository extends JpaRepository<Item,Long>{
     List<Item> findBySize(Size size);
     List<Item> findByTitle(String title);

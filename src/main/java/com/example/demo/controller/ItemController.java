@@ -45,8 +45,10 @@ public class ItemController{
         }
     }
 
-    @GetMapping("items/{id}")
-    public ResponseEntity<Item> getItemById(@PathVariable("id") Long id){
+    @GetMapping("items/{id}") // structure of url (e.g. items/123) Spring sees this url and passes the 123 to the
+    // pathvariable
+    public ResponseEntity<Item> getItemById(@PathVariable("id") Long id){//pathvariable basically
+        //passes the id from the url to the method
         Optional<Item> itemData = itemRepository.findById(id);
 
         if(itemData.isPresent()){
@@ -96,7 +98,8 @@ public class ItemController{
     }
 
     @PostMapping("/items")
-    public ResponseEntity<Item> createItem(@RequestBody Item item){
+    public ResponseEntity<Item> createItem(@RequestBody Item item){ //@RequestBody tells Spring to map the JSON data
+        //from the request body to an Item obj.
         try{
             Item _item = itemRepository.save(new Item(item.getTitle(), item.getDescription(), item.getSize(),
                     item.getPrice()));
