@@ -16,15 +16,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Size;
+import com.example.demo.model.Category;
+import com.example.demo.model.Categories;
 import com.example.demo.model.Item;
 import com.example.demo.repository.ItemRepository;
+import com.example.demo.repository.CategoryRepository;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController //restful web services
 @RequestMapping("/api")
 public class ItemController{
     @Autowired
-    ItemRepository itemRepository;
+    private ItemRepository itemRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     //response entity is the http response, incl status code, headers, and body.
     @GetMapping("/items") //handles get requests to api/items
@@ -71,6 +76,8 @@ public class ItemController{
         }
     }
 
+    //add by findbycategory
+    // and subcategory
     @GetMapping("/items/size")
     public ResponseEntity<List<Item>> findBySize(@RequestParam("size") Size size){
         try{
@@ -98,13 +105,27 @@ public class ItemController{
     }
 
     @PostMapping("/items")
-    public ResponseEntity<Item> createItem(@RequestBody Item item){ //@RequestBody tells Spring to map the JSON data
-        //from the request body to an Item obj.
-        try{
-            Item _item = itemRepository.save(new Item(item.getTitle(), item.getDescription(), item.getSize(),
-                    item.getPrice()));
+    public ResponseEntity<Item> createItem(@RequestBody Item item) {
+        try {
+            //System.out.println("wagwan");
+
+            Category category = item.getCategory();
+            if (category == null || category.getName() == null) {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
+            Optional<Category> existingCategory = categoryRepository.findByName(category.getName());
+            if (existingCategory.isPresent()) {
+                item.setCategory(existingCategory.get());
+            } else {
+                Category savedCategory = categoryRepository.save(category);
+                item.setCategory(savedCategory);
+            }
+
+            Item _item = itemRepository.save(item);
+            //System.out.println("Saved Item: " + _item);
             return new ResponseEntity<>(_item, HttpStatus.CREATED);
-        }catch (Exception e){
+        } catch (Exception e) {
+            //e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -141,6 +162,22 @@ public class ItemController{
             itemRepository.deleteAll();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/items/category/{name}")
+    public ResponseEntity<List<Item>> getItemsByCategory(@PathVariable String name) {
+        try {
+            Categories category = Categories.valueOf(name.toUpperCase());
+            List<Item> items = itemRepository.findByCategory_Name(category);
+            if (items.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(items, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

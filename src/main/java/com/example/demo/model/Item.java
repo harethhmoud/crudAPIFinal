@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Table(name = "clothing") //provides the table that maps this entity
 public class Item{
     @Id // for the primary key.
-    @GeneratedValue(strategy = GenerationType.AUTO) // defines generation strategy for the primary key.
+    @GeneratedValue(strategy = GenerationType.AUTO) // generates ID automatically
     private Long id;
 
     @Column(name = "title")
@@ -21,14 +21,19 @@ public class Item{
     @Column(name = "price")
     private float price;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     public Item(){
     }
 
-    public Item(String title, String description, Size size, float price){
+    public Item(String title, String description, Size size, float price, Category category){
         this.title = title;
         this.description = description;
         this.size = size;
         this.price = price;
+        this.category = category;
     }
 
     public Long getId() {
@@ -67,7 +72,15 @@ public class Item{
         this.price = price;
     }
 
-    @java.lang.Override
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    @Override
     public java.lang.String toString() {
         return "Item{" +
                 "id=" + id +
@@ -75,6 +88,7 @@ public class Item{
                 ", description='" + description + '\'' +
                 ", size=" + size +
                 ", price=" + price +
+                ", category=" + category.getName().name() +
                 '}';
     }
 }
