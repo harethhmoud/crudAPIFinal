@@ -1,8 +1,14 @@
 package com.example.demo.model;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name="category")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor // lombok stuff
 public class Category{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -14,40 +20,4 @@ public class Category{
 
     @Column(name = "description")
     private String description;
-
-    public Category(){}
-
-    public Category(Categories name, String description){
-        this.name = name;
-        this.description = description;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Categories getName() {
-        return name;
-    }
-
-    public void setName(Categories name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    @Override
-    public java.lang.String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name=" + name +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }
