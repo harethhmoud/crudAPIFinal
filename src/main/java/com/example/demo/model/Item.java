@@ -1,8 +1,12 @@
 package com.example.demo.model;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity //indicates that the class is a persistent Java class.
 @Table(name = "clothing") //provides the table that maps this entity
+
 public class Item{
     @Id // for the primary key.
     @GeneratedValue(strategy = GenerationType.AUTO) // generates ID automatically

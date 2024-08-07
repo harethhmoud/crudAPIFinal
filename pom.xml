@@ -29,6 +29,12 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>central</id>
+			<url>https://repo.maven.apache.org/maven2</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -62,6 +68,13 @@
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 			<!-- PostgreSQL -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.34</version>
+			<scope>provided</scope>
 		</dependency>
 
 	</dependencies>
